@@ -61,11 +61,12 @@ namespace byte_buffer
             {
                 namespace bl = boost::lambda;
 
-                foreach(bl::bind( memcpy, mem, bl::bind(&Item::offset, bl::_1), bl::bind(&Item::size, bl::_1)) );
+                foreach(
+                    (bl::bind( memcpy, mem, bl::bind(&Item::offset, bl::_1), bl::bind(&Item::size, bl::_1)),
+                     bl::var(mem) = (static_cast<char*>(mem) + bl::bind(&Item::size, bl::_1))) );
                 
                 // foreach( [&mem](Item const& e)
                 //          {memcpy (mem, e.offset, e.size);
-                //              std::cout << e.offset << ": " << e.size << " " << mem << std::endl;
                 //              mem = (static_cast<char*>(mem) + e.size);}  ) ;
             }
         
