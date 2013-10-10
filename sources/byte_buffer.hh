@@ -10,9 +10,11 @@
 #include <iostream>
 #include <cstring>
 
-namespace{
-    void test(const void* p1, const void* p2, size_t cnt){
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
+namespace
+{
+    void test(void* p1, const void* p2, size_t cnt)
+    {
+        memcpy(p1,p2,cnt);
     }
 }
 
@@ -20,7 +22,6 @@ namespace byte_buffer
 {
     class Accumulator
     {
-
         struct Item
         {
             Item(const void* o, size_t s): offset(o), size(s) {}
@@ -56,46 +57,44 @@ namespace byte_buffer
                 foreach( result += bl::bind(&Item::size,  bl::_1) );
                 return result;               
             }
-
-        void fillMemory(void* mem)
-            {
-                namespace bl = boost::lambda;
-
-                foreach(
-                    (bl::bind( memcpy, mem, bl::bind(&Item::offset, bl::_1), bl::bind(&Item::size, bl::_1)),
-                     bl::var(mem) = (static_cast<char*>(mem) + bl::bind(&Item::size, bl::_1))) );
-                
-                // foreach( [&mem](Item const& e)
-                //          {memcpy (mem, e.offset, e.size);
-                //              mem = (static_cast<char*>(mem) + e.size);}  ) ;
-            }
         
+        
+        void dump(void* mem) const
+            {
+                // namespace bl = boost::lambda;
+                // foreach(
+                //     (bl::bind( test, mem, bl::bind(&Item::offset, bl::_1), bl::bind(&Item::size, bl::_1)),
+                //      bl::var(mem) = (static_cast<char*>(mem) + bl::bind(&Item::size, bl::_1)) ) );
+
+                foreach( [&mem](Item const& e)
+                         {memcpy (mem, e.offset, e.size);
+                             mem = (static_cast<char*>(mem) + e.size);}  ) ;
+            }
+
         
     private:
-        typedef boost::function<void (Item const&)> ItemVisiter;       
+        typedef boost::function<void (Item&)> ItemVisiter;       
+        typedef boost::function<void (Item const&)> ConstItemVisiter;
         
-        boost::scoped_ptr<Item> m_chain_head;
-        size_t m_size_data;
+        boost::scoped_ptr<Item> m_chain_head;      
         
-        
-        void foreach(ItemVisiter v)
+        void foreach(ConstItemVisiter v) const
             {
                 if(this->m_chain_head)
                 {
                     Item* prev = m_chain_head.get();
                     do
-                    {
-                        Item itemt(NULL,0);
+                    {                        
                         v(boost::ref(*prev));
                     }while(prev = prev->next.get());
                 }
-
             }
+
         
         void insert(Item* item)
             {                
-                if(this->m_chain_head)
-                {
+                if(this->m_chain_head)                    
+                {            
                     Item* prev = m_chain_head.get();
                     while(prev->next) prev = prev->next.get();
                     prev->next.reset(item);
@@ -103,12 +102,12 @@ namespace byte_buffer
                 else
                 {
                     this->m_chain_head.reset(item);
-                }
-            }
-        
-        
+                } 
+            }                
     };
 
+    
+    
 }
 
 #endif /* _BYTE_BUFFER_H_ */

@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
     byte_buffer::Accumulator acc;
     acc.push(s).push(b).push(a);        
 
-    buffer.resize( acc.size());
-    acc.fillMemory(&(buffer[0]));
+    buffer.resize( acc.size() );
+    acc.dump(&(buffer[0]));
 
     std::cout << "Size: " << buffer.size() << std::endl;
     
