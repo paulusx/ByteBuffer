@@ -20,6 +20,7 @@ namespace byte_buffer
 {
     class Accumulator
     {
+
         struct Item
         {
             Item(const void* o, size_t s): offset(o), size(s) {}
@@ -59,14 +60,8 @@ namespace byte_buffer
         void fillMemory(void* mem)
             {
                 namespace bl = boost::lambda;
-                memcpy(0, 0, 10);
-                foreach(bl::bind(
-                            test,
-                            bl::bind(&Item::offset, _1),
-                            bl::bind(&Item::offset, _1),
-                            bl::bind(&Item::size, _1)
-                            )
-                    );
+
+                foreach(bl::bind( memcpy, mem, bl::bind(&Item::offset, bl::_1), bl::bind(&Item::size, bl::_1)) );
                 
                 // foreach( [&mem](Item const& e)
                 //          {memcpy (mem, e.offset, e.size);
