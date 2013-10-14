@@ -11,7 +11,7 @@ struct sx
 {
     unsigned int a;
     unsigned int b;
-    char c[120];
+    char c[12];
 };
 
     
@@ -19,19 +19,22 @@ struct sx
 
 int main(int argc, char *argv[])
 {
-    int a[60] = {6};
-    unsigned long long b = 33322;
-    sx s = {0xffffffff,0x00,{'9'}};
+    // int a = 6;
+    // unsigned long long b = 33322;
+    // sx s = {0xffffffff,0x00,{1,2,3,4,5,6,7,8,9,10,11,12}};
 
-    std::vector<char> buffer;
+    // std::vector<char> buffer;
     
-    byte_buffer::Accumulator acc;
-    acc.push(s).push(b).push(a);        
+    // byte_buffer::Accumulator acc;
+    // acc.push(s).push(b).push(a);        
 
-    buffer.resize( acc.size() );
-    acc.dump(&(buffer[0]));
+    // buffer.resize( acc.size() );
+    // acc.dump(&(buffer[0]));
 
-    std::cout << "Size: " << buffer.size() << std::endl;
+    byte_buffer::ByteBuffer<32, byte_buffer::VectorStorage> vs;
+    
+    
+    std::cout << "Size: " << &vs << std::endl;
     
     return 0;
 }
