@@ -32,18 +32,18 @@ int main(int argc, char *argv[])
     // acc.dump(&(buffer[0]));
 
 
-    byte_buffer::StackAllocator<32, byte_buffer::VectorStorage> vs;
+//    byte_buffer::StackAllocator<32, byte_buffer::VectorStorage> vs;
 
-    std::cout << "free: " << vs.freeSpace() << std::endl;
-    vs.allocate(sizeof(s));
-    std::cout << "free: " << vs.freeSpace() << std::endl;
-    vs.allocate(sizeof(s));
-    std::cout << "free: " << vs.freeSpace() << std::endl;
+    // std::cout << "free: " << vs.freeSpace() << std::endl;
+    // vs.allocate(sizeof(s));
+    // std::cout << "free: " << vs.freeSpace() << std::endl;
+    // vs.allocate(sizeof(s));
+    // std::cout << "free: " << vs.freeSpace() << std::endl;
     
-    std::cout << "vii: " << sizeof(s)  << std::endl;
+    // std::cout << "vii: " << sizeof(s)  << std::endl;
     
 
-//   byte_buffer::ByteBuffer<32, byte_buffer::VectorStorage, byte_buffer::StackAllocator > vs;
+   byte_buffer::ByteBuffer<32, byte_buffer::VectorStorage, byte_buffer::StackAllocator > vs;
 //    vs.resize(67);
     
         

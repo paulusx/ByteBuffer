@@ -58,20 +58,20 @@ namespace byte_buffer
     };
 
         
-    // template<size_t S, template<size_t> class Storage, template<size_t, class> class Allocator>
-    // class ByteBuffer: public Allocator<S,Storage >
-    // {
-    // public:
-    //     void push(void* buffer, size_t size)
-    //         {
+    template<size_t S, template<size_t> class Storage, template<size_t, template<size_t> class> class Allocator>
+    class ByteBuffer: public Allocator<S,Storage>
+    {
+    public:
+        void push(void* buffer, size_t size)
+            {
                 
-    //         }
+            }
 
-    //     const void*  operator& () {return Storage<S>::operator& () ;}        
-    // private:
+        const void*  operator& () {return Storage<S>::operator& () ;}        
+    private:
 
         
-    // };
+    };
 
     
     
