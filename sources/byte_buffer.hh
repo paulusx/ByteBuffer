@@ -5,10 +5,12 @@
 
 #include <vector>
 #include <iostream>
-
+//#include <>
 
 namespace byte_buffer
 {
+    
+    class FullStorage {};
     
     template<size_t S>
     class VectorStorage
@@ -58,13 +60,17 @@ namespace byte_buffer
     };
 
         
-    template<size_t S, template<size_t> class Storage, template<size_t, template<size_t> class> class Allocator>
-    class ByteBuffer: public Allocator<S,Storage>
+    template< size_t S,
+              template<size_t> class Storage,
+              template<size_t, template<size_t> class> class Allocator >
+    class ByteBuffer: public Allocator<S, Storage>
     {
     public:
         void push(void* buffer, size_t size)
             {
-                
+                void* v = Allocator<S, Storage>::allocate(size);
+                if(!v) throw FullStorage();
+                memcpy(v, buffer, size);
             }
 
         const void*  operator& () {return Storage<S>::operator& () ;}        
