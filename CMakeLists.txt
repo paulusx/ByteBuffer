@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.6)
 project(ByteBuffera)
 include (CPack)
 
-add_definitions( -Wall -Wextra -pedantic -Wno-long-long -g  -std=c++11 )
+add_definitions( -Wall -Wextra -pedantic -Wno-long-long -g  -std=c++11)
 
 set (Boost_USE_STATIC_LIBS OFF)
 set (Boost_USE_MULTITHREADED ON)

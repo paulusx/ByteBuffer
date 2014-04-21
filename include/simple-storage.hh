@@ -8,7 +8,7 @@ namespace byte_buffer
     class SimpleStorage
     {
     public:
-        void*  operator& () {return m_storage;}
+        void*  memory() {return m_storage;}
         size_t size() {return S;}
     private:
         char m_storage[S];

@@ -13,7 +13,7 @@ namespace byte_buffer
                 void* ret = &(static_cast<char*>(bottom)[head]);
                 if(head + size + sizeof(size_t) < Storage<S>::size())
                 {
-                    head += static_cast<char*>(bottom)[head] + size + sizeof(size_t);
+                    head += size + sizeof(size_t);
                     size_t* psize = reinterpret_cast<size_t*>(static_cast<char*>(ret) + size);
                     *psize  = size;
                     return ret;

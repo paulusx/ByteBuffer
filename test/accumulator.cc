@@ -1,5 +1,4 @@
 #include<accumulator.hh>
-#include<vector>
 
 #ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
