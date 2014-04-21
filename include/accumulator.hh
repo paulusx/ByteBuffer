@@ -4,9 +4,11 @@
 #include <cstddef>
 #include <boost/scoped_ptr.hpp>
 #include <boost/function.hpp>
+
+#if __cplusplus <= 199711L
 #include <boost/lambda/lambda.hpp>
 #include <boost/lambda/bind.hpp>
-#include <boost/bind.hpp>
+#endif
 
 namespace byte_buffer
 {
@@ -40,12 +42,16 @@ namespace byte_buffer
                 return *this;
             }
 
-        size_t size()
+        size_t size() const
             {
-                namespace bl = boost::lambda;              
                 size_t result = 0;
+#if __cplusplus <= 199711L
+                namespace bl = boost::lambda;
                 foreach( result += bl::bind(&Item::size,  bl::_1) );
-                return result;               
+#else
+                foreach( [&result](Item const& e){result += e.size;});
+#endif
+                return result;
             }
         
         
@@ -58,7 +64,6 @@ namespace byte_buffer
                                    bl::bind(&Item::offset, bl::_1), bl::bind(&Item::size, bl::_1)),
                          bl::var(cmem) += bl::bind(&Item::size, bl::_1)) );
 #else
-                #error Hello
                 foreach( [&mem](Item const& e)
                          {memcpy (mem, e.offset, e.size);
                              mem = (static_cast<char*>(mem) + e.size);}  ) ;

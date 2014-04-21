@@ -1,15 +1,5 @@
 #include<accumulator.hh>
-
-// #include<iostream>
 #include<vector>
-// #include <string>
-
-// #include "byte-buffer.hh"
-// #include "vector-storage.hh"
-
-
-// #include <memory>
-
 
 #ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
