@@ -50,19 +50,19 @@ namespace byte_buffer
         
         
         void dump(void* mem) const
-            {
-                namespace bl = boost::lambda;
-                
+            {                
+#if __cplusplus <= 199711L
+                namespace bl = boost::lambda;                
                 char* cmem = static_cast<char*>(mem);
-                
-                size_t counter = 0;
                 foreach((bl::bind( memcpy, bl::var(cmem),
                                    bl::bind(&Item::offset, bl::_1), bl::bind(&Item::size, bl::_1)),
                          bl::var(cmem) += bl::bind(&Item::size, bl::_1)) );
-
-                // foreach( [&mem](Item const& e)
-                //          {memcpy (mem, e.offset, e.size);
-                //              mem = (static_cast<char*>(mem) + e.size);}  ) ;
+#else
+                #error Hello
+                foreach( [&mem](Item const& e)
+                         {memcpy (mem, e.offset, e.size);
+                             mem = (static_cast<char*>(mem) + e.size);}  ) ;
+#endif
             }
 
         
@@ -80,7 +80,7 @@ namespace byte_buffer
                     do
                     {                        
                         v(boost::ref(*prev));
-                    }while(prev = prev->next.get());
+                    }while( (prev = prev->next.get()) );
                 }
             }
 
